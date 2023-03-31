@@ -1,0 +1,166 @@
+# Copyright (c) 2013 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+config("viewer_config") {
+  precompiled_header = "precompile.h"
+  precompiled_source = "precompile.cc"
+
+  cflags = [ "/FI$precompiled_header" ]
+ 
+  cflags_c = [ "/wd4206" ]
+  
+  cflags_cc = [
+    "/EHsc",
+  ]
+}
+
+executable("viewer") {
+   sources = [
+     "main.cc",
+     "oda_app.h",
+     "oda_app.cc",
+     "OdFileBuf.h",
+     "OdFileBuf.cpp",
+     "main_dlg.h",
+     "main_dlg.cc",
+     "resource.h",
+     "resource.rc",
+     
+     "Gc/AcGsRecorderImpl.h",
+     "Gc/AcGsRecorderImpl.cc",
+     "Gc/AcGsTraitRecorder.h",
+     "Gc/AcGsTraitRecorder.cc",
+     "Gc/AcGsPolylineRecorder.h",
+     "Gc/AcGsPolylineRecorder.cc",
+     "Gc/AcGsTriangleRecorder.h",
+     "Gc/AcGsTriangleRecorder.cc",
+     "Gc/AcGsTextRecorder.h",
+     "Gc/AcGsTextRecorder.cc",
+     "Gc/AcGsEntityRecorder.h",
+     "Gc/AcGsEntityRecorder.cc",
+     "Gc/AcGsShellRecorder.h",
+     "Gc/AcGsShellRecorder.cc",
+        
+     "Gi/AcGiMatrix3d.h",
+     "Gi/AcGiMatrix3d.cc",
+     "Gi/AcGiXTransform.h",
+     "Gi/AcGiXTransform.cc",
+     "Gi/AcGiVectorizer.h",
+     "Gi/AcGiVectorizer.cc",
+     "Gi/AcGiVectorizerTrait.cc",
+     "Gi/AcGiVectorizerGeometry.cc",
+     "Gi/AcGiVectorizerViewport.cc",
+     
+     "include/adesk.h",
+     "include/acgs.h",
+     "include/AcGsManager.h",
+     "include/AcGsDisplayContext.h",
+     "include/dbjig.h",
+     
+     "Gs/AcGsGraphicsKernelImpl.h",
+     "Gs/AcGsGraphicsKernelImpl.cc",
+     "Gs/AcGsManagerImpl.h",
+     "Gs/AcGsManagerImpl.cc",
+     "Gs/AcGsViewImpl.h",
+     "Gs/AcGsViewImpl.cc",
+     "Gs/AcGsDeviceImpl.h",
+     "Gs/AcGsDeviceImpl.cc",
+     "Gs/AcGsModelImpl.h",
+     "Gs/AcGsModelImpl.cc",
+     "Gs/AcGsRenderImpl.h",
+     "Gs/AcGsRenderImpl.cc",
+     "Gs/AcGsDisplayContextImpl.h",
+     "Gs/AcGsDisplayContextImpl.cc",
+     #"Gs/AcGsUpdateContextImpl.h",
+     #"Gs/AcGsUpdateContextImpl.cc",
+     "Gs/AcGsNodeImpl.h",
+     "Gs/AcGsNodeImpl.cc",
+     "Gs/AcGsLayerNode.h",
+     "Gs/AcGsLayerNode.cc",
+     "Gs/AcGsEntityNode.h",
+     "Gs/AcGsEntityNode.cc",
+     "Gs/AcGsContainerNode.h",
+     "Gs/AcGsContainerNode.cc",
+     "Gs/AcGsSpatialQuery.h",
+     "Gs/AcGsSpatialQuery.cc",
+     "Gs/AcGsSelectVisitor.h",
+     "Gs/AcGsSelectVisitor.cc",
+     
+     "Ed/AcEdImpJig.h",
+     "Ed/AcEdImpJig.cc",
+     "Ed/AcEdJigImpl.cc",
+     "Ed/AcEdContext.h",
+     "Ed/AcEdContext.cc",
+     "Ed/AcEdGripManager.h",
+     "Ed/AcEdGripManager.cc",
+     "Ed/AcEdOsnapManager.h",
+     "Ed/AcEdOsnapManager.cc",
+     
+     "Ed/Jig/AcEdLineJig.h",
+     "Ed/Jig/AcEdLineJig.cc",
+   ]
+   
+   if (is_component_build) {
+     defines = [ 
+       "_TOOLKIT_IN_DLL_",
+       "PROTECTED_DLL_ENABLED",
+     ]
+   }
+  
+  deps = [
+    #"//oda/ThreadPool",
+    "//oda/source/alloc:TD_Alloc",
+    "//oda/source/database:TD_Db",
+    "//oda/source:TD_DbRoot",
+    "//oda/source:TD_Key",
+    "//oda/source/Gi:TD_Gi",
+    "//oda/source/Gs:TD_Gs",
+    "//oda/source/si:TD_SpatialIndex",
+    "//oda/source/Ge:TD_Ge",
+    "//third_party/sisl_4.6:sisl", 
+    "//oda/source/root:TD_Root",
+    "//oda/source/alloc:TD_Alloc",
+    "//ui/compositor",
+  ]
+   
+   include_dirs = [
+     "//third_party/wtl/include",
+     
+     "//oda/source",
+     "//oda/source/database",
+     "//oda/source/database/Ds",
+     "//oda/source/database/Objects",
+     "//oda/source/database/Tables",
+     "//oda/source/database/DxfIO",
+     "//oda/source/database/DxfIO/In",
+     "//oda/source/database/Entities",
+     "//oda/source/database/DwgFiler",
+     "//oda/source/database/DwgFiler/in",
+     "//oda/source/database/DwgFiler/out",
+     "//oda/source/database/DwgFiler/R12",
+     "//oda/source/misc",
+     "//oda/include",
+     "//oda/include/Gi",
+     "//oda/include/Ge",
+     
+     "./include",
+     "./Gs",
+     "./Gc",
+     "./Gi",
+     "./Ed",
+     "./Ed/Jig",
+   ]
+   
+  
+   configs -= [ 
+      "//build/config/win:console" 
+   ]
+   
+   configs += [ 
+      "//build/config/win:windowed",
+      ":viewer_config", 
+   ]
+}
+
+
